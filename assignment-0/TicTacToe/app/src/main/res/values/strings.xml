@@ -6,4 +6,6 @@
     <string name="game_status_monitor_player_x_win">PLAYER X WIN!</string>
     <string name="game_status_monitor_player_o_win">PLAYER O WIN!</string>
     <string name="game_status_monitor_draw">DRAW!</string>
+    <string name="O">O</string>
+    <string name="X">X</string>
 </resources>
