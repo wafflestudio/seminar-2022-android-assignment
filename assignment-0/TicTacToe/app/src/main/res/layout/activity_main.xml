@@ -1,9 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:screenOrientation="portrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/status_text_size"
+        android:id="@+id/game_status"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_grid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Game status"/>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:columnCount="3"
+        android:layout_gravity="center"
+        android:id="@+id/button_grid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.example.tictactoe.SquareButton
+            android:id="@+id/button0"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="X"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button1"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button2"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button3"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button4"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button5"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button6"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button7"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+        <com.example.tictactoe.SquareButton
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
+            android:id="@+id/button8"
+            android:layout_margin="@dimen/button_margin"
+            app:layout_constraintStart_toStartof="parent"
+            app:layout_constraintTop_toTopof="parent"
+            android:text="@string/button_default_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            tools:text="O"
+            android:background="@drawable/round_button"/>
+
+    </GridLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/restart_game_btn"
+        android:id="@+id/restart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_grid"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

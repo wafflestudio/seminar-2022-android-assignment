@@ -7,13 +7,108 @@ import com.example.tictactoe.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val gameStatus: GameStatus? = null
-    private val boardStatus: GameBoard? = null
+    private var gameStatus: GameStatus? = null
+    private var boardStatus: GameBoard? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        gameStatus = GameStatus.PlayerOTurn
+        boardStatus = GameBoard(listOf(0,0,0,0,0,0,0,0,0))
+
+        binding.button0.setOnClickListener{updateGame(0)}
+        binding.button1.setOnClickListener{updateGame(1)}
+        binding.button2.setOnClickListener{updateGame(2)}
+        binding.button3.setOnClickListener{updateGame(3)}
+        binding.button4.setOnClickListener{updateGame(4)}
+        binding.button5.setOnClickListener{updateGame(5)}
+        binding.button6.setOnClickListener{updateGame(6)}
+        binding.button7.setOnClickListener{updateGame(7)}
+        binding.button8.setOnClickListener{updateGame(8)}
+        binding.restart.setOnClickListener{restartGame()}
+    }
+
+    private fun setDisplay(){
+        when(gameStatus){
+            GameStatus.PlayerOTurn -> binding.gameStatus.setText(R.string.game_status_monitor_player_o_turn)
+            GameStatus.PlayerXTurn -> binding.gameStatus.setText(R.string.game_status_monitor_player_x_turn)
+            GameStatus.PlayerOWin -> binding.gameStatus.setText(R.string.game_status_monitor_player_o_win)
+            GameStatus.PlayerXWin -> binding.gameStatus.setText(R.string.game_status_monitor_player_x_win)
+            else -> binding.gameStatus.setText(R.string.game_status_monitor_draw)
+        }
+        binding.button0.setText(when(boardStatus!!.board.elementAt(0)){1->"O";2->"X";else->""})
+        binding.button1.setText(when(boardStatus!!.board.elementAt(1)){1->"O";2->"X";else->""})
+        binding.button2.setText(when(boardStatus!!.board.elementAt(2)){1->"O";2->"X";else->""})
+        binding.button3.setText(when(boardStatus!!.board.elementAt(3)){1->"O";2->"X";else->""})
+        binding.button4.setText(when(boardStatus!!.board.elementAt(4)){1->"O";2->"X";else->""})
+        binding.button5.setText(when(boardStatus!!.board.elementAt(5)){1->"O";2->"X";else->""})
+        binding.button6.setText(when(boardStatus!!.board.elementAt(6)){1->"O";2->"X";else->""})
+        binding.button7.setText(when(boardStatus!!.board.elementAt(7)){1->"O";2->"X";else->""})
+        binding.button8.setText(when(boardStatus!!.board.elementAt(8)){1->"O";2->"X";else->""})
+    }
+
+    private fun updateGame(idx: Int){
+        if (boardStatus?.board?.elementAt(idx) != 0 || (gameStatus != GameStatus.PlayerXTurn && gameStatus != GameStatus.PlayerOTurn))  return
+        val tmpBoard = boardStatus!!.board.toMutableList()
+        tmpBoard[idx] = when(gameStatus){
+            GameStatus.PlayerOTurn -> 1
+            else -> 2
+        }
+        boardStatus = GameBoard(tmpBoard.toList())
+        updateGameState()
+        setDisplay()
+    }
+
+    private fun updateGameState(){
+        val addedNum : Int = when(gameStatus){
+            GameStatus.PlayerOTurn -> 1
+            else -> 2
+        }
+        val winStatus = when(gameStatus){
+            GameStatus.PlayerOTurn -> GameStatus.PlayerOWin
+            else -> GameStatus.PlayerXWin
+        }
+        fun checkRow(rowIdx: Int): Boolean{
+            if(boardStatus!!.board.elementAt(rowIdx*3) == addedNum
+                && boardStatus!!.board.elementAt(rowIdx*3 + 1) == addedNum
+                && boardStatus!!.board.elementAt(rowIdx*3 + 2) == addedNum)
+                    return true
+            return false
+        }
+        fun checkCol(colIdx: Int): Boolean{
+            if(boardStatus!!.board.elementAt(colIdx) == addedNum
+                && boardStatus!!.board.elementAt(colIdx + 3) == addedNum
+                && boardStatus!!.board.elementAt(colIdx + 6) == addedNum)
+                return true
+            return false
+        }
+        for(i in 0..2){
+            if(checkRow(i)){
+                gameStatus = winStatus
+                return
+            }
+            if(checkCol(i)) {
+                gameStatus = winStatus
+                return
+            }
+        }
+        for(i in boardStatus!!.board){
+            if(i==0){
+                gameStatus = when(gameStatus){
+                    GameStatus.PlayerOTurn -> GameStatus.PlayerXTurn
+                    else -> GameStatus.PlayerOTurn
+                }
+            }
+        }
+        gameStatus = GameStatus.Draw
+    }
+
+    private fun restartGame(){
+        gameStatus = GameStatus.PlayerOTurn
+        boardStatus = GameBoard(listOf(0,0,0,0,0,0,0,0,0))
+        setDisplay()
     }
 }
 
@@ -24,5 +119,5 @@ enum class GameStatus {
 }
 
 data class GameBoard(
-    val board: List<Boolean?>
+    val board: List<Int>
 )
