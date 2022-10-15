@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tictactoe.databinding.ActivityMainBinding
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding.button7.setOnClickListener{updateGame(7)}
         binding.button8.setOnClickListener{updateGame(8)}
         binding.restart.setOnClickListener{restartGame()}
+
+        setDisplay()
     }
 
     private fun setDisplay(){
@@ -49,10 +52,10 @@ class MainActivity : AppCompatActivity() {
         binding.button8.setText(when(boardStatus!!.board.elementAt(8)){1->"O";2->"X";else->""})
     }
 
-    private fun updateGame(idx: Int){
-        if (boardStatus?.board?.elementAt(idx) != 0 || (gameStatus != GameStatus.PlayerXTurn && gameStatus != GameStatus.PlayerOTurn))  return
+    private fun updateGame(pressedButtonIdx: Int){
+        if (boardStatus?.board?.elementAt(pressedButtonIdx) != 0 || (gameStatus != GameStatus.PlayerXTurn && gameStatus != GameStatus.PlayerOTurn))  return
         val tmpBoard = boardStatus!!.board.toMutableList()
-        tmpBoard[idx] = when(gameStatus){
+        tmpBoard[pressedButtonIdx] = when(gameStatus){
             GameStatus.PlayerOTurn -> 1
             else -> 2
         }
@@ -84,22 +87,20 @@ class MainActivity : AppCompatActivity() {
                 return true
             return false
         }
-        for(i in 0..2){
-            if(checkRow(i)){
-                gameStatus = winStatus
-                return
-            }
-            if(checkCol(i)) {
+        for(lineIdx in 0..2){
+            if(checkRow(lineIdx) || checkCol(lineIdx)){
                 gameStatus = winStatus
                 return
             }
         }
         for(i in boardStatus!!.board){
-            if(i==0){
+            Log.d("CheckDraw", "i is $i")
+            if(i == 0){
                 gameStatus = when(gameStatus){
                     GameStatus.PlayerOTurn -> GameStatus.PlayerXTurn
                     else -> GameStatus.PlayerOTurn
                 }
+                return
             }
         }
         gameStatus = GameStatus.Draw

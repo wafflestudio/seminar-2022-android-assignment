@@ -31,13 +31,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:id="@+id/button0"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -45,13 +43,11 @@
             tools:text="X"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button1"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -59,13 +55,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button2"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -73,13 +67,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button3"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -87,13 +79,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button4"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -101,13 +91,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button5"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -115,13 +103,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button6"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -129,13 +115,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button7"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
@@ -143,13 +127,11 @@
             tools:text="O"
             android:background="@drawable/round_button"/>
 
-        <com.example.tictactoe.SquareButton
+        <Button
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_width"
             android:id="@+id/button8"
             android:layout_margin="@dimen/button_margin"
-            app:layout_constraintStart_toStartof="parent"
-            app:layout_constraintTop_toTopof="parent"
             android:text="@string/button_default_text"
             android:textAlignment="center"
             android:gravity="center"
