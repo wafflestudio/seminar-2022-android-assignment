@@ -87,11 +87,26 @@ class MainActivity : AppCompatActivity() {
                 return true
             return false
         }
+        fun checkDiag(): Boolean{
+            if(boardStatus!!.board.elementAt(0) == addedNum
+                && boardStatus!!.board.elementAt(4) == addedNum
+                && boardStatus!!.board.elementAt(8) == addedNum)
+                return true
+            if(boardStatus!!.board.elementAt(2) == addedNum
+                && boardStatus!!.board.elementAt(4) == addedNum
+                && boardStatus!!.board.elementAt(6) == addedNum)
+                return true
+            return false
+        }
         for(lineIdx in 0..2){
             if(checkRow(lineIdx) || checkCol(lineIdx)){
                 gameStatus = winStatus
                 return
             }
+        }
+        if(checkDiag()){
+            gameStatus = winStatus
+            return
         }
         for(i in boardStatus!!.board){
             Log.d("CheckDraw", "i is $i")
