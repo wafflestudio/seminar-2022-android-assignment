@@ -25,7 +25,8 @@
 4. 이때, 만들기가 완료되었다면 적절한 토스트 메세지와 함꼐 **리스트 페이지** 로 돌아갈 수 있다.
 
 ## 앱 데모
-![Demo](demo.gif)
+
+https://user-images.githubusercontent.com/37951125/198087391-607719dc-b1c3-4aa8-a942-c690bc236833.mp4
   
 ## 과제 제출 방법
 1. assignement 레포지토리를 fork 한다.
