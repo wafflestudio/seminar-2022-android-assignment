@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="button_size">80dp</dimen>
+    <dimen name="button_margine">5dp</dimen>
+    <dimen name="textBtnSize">30sp</dimen>
+
 </resources>
