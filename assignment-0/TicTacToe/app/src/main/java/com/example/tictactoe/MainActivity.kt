@@ -16,9 +16,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //status init
         gameStatus = GameStatus.PlayerOTurn
         boardStatus = GameBoard(listOf(0,0,0,0,0,0,0,0,0))
 
+        //button bindings
         binding.button0.setOnClickListener{updateGame(0)}
         binding.button1.setOnClickListener{updateGame(1)}
         binding.button2.setOnClickListener{updateGame(2)}
@@ -30,10 +32,12 @@ class MainActivity : AppCompatActivity() {
         binding.button8.setOnClickListener{updateGame(8)}
         binding.restart.setOnClickListener{restartGame()}
 
+        //display init
         setDisplay()
     }
 
     private fun setDisplay(){
+        //status text
         when(gameStatus){
             GameStatus.PlayerOTurn -> binding.gameStatus.setText(R.string.game_status_monitor_player_o_turn)
             GameStatus.PlayerXTurn -> binding.gameStatus.setText(R.string.game_status_monitor_player_x_turn)
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             GameStatus.PlayerXWin -> binding.gameStatus.setText(R.string.game_status_monitor_player_x_win)
             else -> binding.gameStatus.setText(R.string.game_status_monitor_draw)
         }
+        //tictactoe buttons text
         binding.button0.setText(when(boardStatus!!.board.elementAt(0)){1->"O";2->"X";else->""})
         binding.button1.setText(when(boardStatus!!.board.elementAt(1)){1->"O";2->"X";else->""})
         binding.button2.setText(when(boardStatus!!.board.elementAt(2)){1->"O";2->"X";else->""})
@@ -53,7 +58,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateGame(pressedButtonIdx: Int){
+        // invalid input
         if (boardStatus?.board?.elementAt(pressedButtonIdx) != 0 || (gameStatus != GameStatus.PlayerXTurn && gameStatus != GameStatus.PlayerOTurn))  return
+        // board status update
         val tmpBoard = boardStatus!!.board.toMutableList()
         tmpBoard[pressedButtonIdx] = when(gameStatus){
             GameStatus.PlayerOTurn -> 1
@@ -61,10 +68,12 @@ class MainActivity : AppCompatActivity() {
         }
         boardStatus = GameBoard(tmpBoard.toList())
         updateGameState()
+        // apply changes to screen
         setDisplay()
     }
 
     private fun updateGameState(){
+        //O turn -> 1 , X turn -> 2
         val addedNum : Int = when(gameStatus){
             GameStatus.PlayerOTurn -> 1
             else -> 2
@@ -98,18 +107,20 @@ class MainActivity : AppCompatActivity() {
                 return true
             return false
         }
+        //row/col winning
         for(lineIdx in 0..2){
             if(checkRow(lineIdx) || checkCol(lineIdx)){
                 gameStatus = winStatus
                 return
             }
         }
+        //diag winning
         if(checkDiag()){
             gameStatus = winStatus
             return
         }
+        // no more space -> draw
         for(i in boardStatus!!.board){
-            Log.d("CheckDraw", "i is $i")
             if(i == 0){
                 gameStatus = when(gameStatus){
                     GameStatus.PlayerOTurn -> GameStatus.PlayerXTurn
