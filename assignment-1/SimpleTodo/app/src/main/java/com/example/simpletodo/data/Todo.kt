@@ -10,4 +10,10 @@ data class Todo(
     val id: Long = 0L,
     @ColumnInfo(name = "created_at")
     val createdAt: Long,
+    @ColumnInfo(name = "title")
+    val title: String,
+    @ColumnInfo(name = "content")
+    val content: String,
+    @ColumnInfo(name = "is_done")
+    val isDone: Boolean
 )
