@@ -1,4 +1,4 @@
-# Wafflestudio Android Seminar Assignment1
+# Wafflestudio Android Seminar Assignment0
 
 ## 과제의 목표
 - 틱택토 게임을 위한 앱 UI 를직접 xml 파일을 수정하며 구성해 보고
