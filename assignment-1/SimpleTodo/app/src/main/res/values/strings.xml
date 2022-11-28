@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SimpleTodo</string>
     <string name="add_new_item">New Todo Added</string>
+    <string name="new_todo_title_req">Title</string>
+    <string name="new_todo_content_req">Content</string>
+    <string name="submit_todo">SUBMIT</string>
+    <string name="add_todo_title">Add Todo</string>
+    <string name="status_undone">UNDONE</string>
+    <string name="status_done">REVERT</string>
+    <string name="checkbox">show done todo</string>
 </resources>

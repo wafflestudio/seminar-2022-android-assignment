@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/todoListFragment">
 
     <fragment
         android:id="@+id/todoListFragment"
         android:name="com.example.simpletodo.ui.TodoListFragment"
-        android:label="TodoListFragment">
+        android:label="TodoListFragment"
+        tools:layout="@layout/fragment_todo_list">
         <action
             android:id="@+id/action_todoListFragment_to_todoAdderFragment"
             app:destination="@id/todoAdderFragment"
@@ -19,5 +21,11 @@
     <fragment
         android:id="@+id/todoAdderFragment"
         android:name="com.example.simpletodo.ui.TodoAdderFragment"
-        android:label="TodoAdderFragment" />
+        android:label="TodoAdderFragment" >
+        <action
+            android:id="@+id/action_todoAdderFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment"
+            app:popUpTo="@id/todoListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

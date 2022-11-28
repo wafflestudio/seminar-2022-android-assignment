@@ -2,17 +2,16 @@
 <resources>
     <style name="Widget.TodoList.TitleTextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:width">200dp</item>
+        <item name="android:layout_width">170dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_marginLeft">@dimen/margin_between_elements</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAppearance">?attr/textAppearanceBody1</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="Widget.TodoList.ContentTextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:width">250dp</item>
+        <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginLeft">@dimen/margin_between_elements</item>
         <item name="android:fontFamily">sans-serif</item>
@@ -22,8 +21,8 @@
 
     <style name="Widget.TodoList.Button" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center</item>
-        <item name="android:width">120dp</item>
-        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_width">105dp</item>
+        <item name="android:layout_height">65dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAppearance">?attr/textAppearanceBody1</item>
         <item name="android:textSize">17sp</item>

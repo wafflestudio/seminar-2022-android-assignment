@@ -1,9 +1,11 @@
 package com.example.simpletodo.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,5 +37,37 @@ class TodoAdderFragment : Fragment() {
     ): View {
         binding = FragmentTodoAdderBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private fun isEntryValid(): Boolean {
+        return viewModel.isEntryValid(
+            binding.newTodoTitle.text.toString(),
+            binding.newTodoContent.text.toString()
+        )
+    }
+
+    private fun addNewTodo() {
+        if(isEntryValid()) {
+            viewModel.addNewTodo(
+                binding.newTodoTitle.text.toString(),
+                binding.newTodoContent.text.toString()
+            )
+        }
+        val action = TodoAdderFragmentDirections.actionTodoAdderFragmentToTodoListFragment()
+        findNavController().navigate(action)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.submitTodo.setOnClickListener {
+            addNewTodo()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
+                InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 }

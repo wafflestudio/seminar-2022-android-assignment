@@ -15,6 +15,8 @@ class TodoViewModel(
     // 완료되지 않은 투두의 리스트
     val unDoneTodos: LiveData<List<Todo>> = todoDao.getUndoneTodos().asLiveData()
 
+    private var cnt = 1
+
     // TodoDao를 통해 새 투두 삽입
     private fun insertTodo(todo: Todo) {
         viewModelScope.launch {
@@ -42,16 +44,5 @@ class TodoViewModel(
     // id를 통해 원하는 투두를 가져옴
     fun retrieveTodo(id: Long): LiveData<Todo> {
         return todoDao.getTodo(id).asLiveData()
-    }
-
-    //뷰모델 생성을 위한 Factory
-    class TodoViewModelFactory(private val todoDao: TodoDao) : ViewModelProvider.Factory {
-        override fun <T: ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return TodoViewModel(todoDao) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }

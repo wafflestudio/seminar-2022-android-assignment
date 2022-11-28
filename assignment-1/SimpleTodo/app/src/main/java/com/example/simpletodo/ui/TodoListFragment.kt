@@ -9,10 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.simpletodo.R
 import com.example.simpletodo.data.TodoDatabase
 import com.example.simpletodo.databinding.FragmentTodoListBinding
+import com.example.simpletodo.databinding.ItemTodoListBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -32,9 +36,27 @@ class TodoListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentTodoListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = TodoListAdapter()
+        viewModel.allTodos.observe(this.viewLifecycleOwner){ items ->
+            items.let{
+                adapter.submitList(it)
+            }
+        }
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+        binding.floating.setOnClickListener{
+            val action = TodoListFragmentDirections.actionTodoListFragmentToTodoAdderFragment()
+            this.findNavController().navigate(action)
+        }
     }
 }

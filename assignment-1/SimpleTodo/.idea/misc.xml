@@ -3,13 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/fragment_todo_list.xml" value="0.176" />
-        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/todo_list_item.xml" value="0.176" />
+        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/activity_main.xml" value="0.1331521739130435" />
+        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/fragment_todo_adder.xml" value="0.1598731884057971" />
+        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/fragment_todo_list.xml" value="0.264" />
+        <entry key="..\:/_SNU/MISC/WaffleStudio/AndroidSeminar(2208~)/Assignments/0/seminar-2022-android-assignment/assignment-1/SimpleTodo/app/src/main/res/layout/item_todo_list.xml" value="0.2" />
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

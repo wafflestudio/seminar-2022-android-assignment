@@ -10,25 +10,40 @@
     <TextView
         android:id="@+id/todo_title"
         style="@style/Widget.TodoList.TitleTextView"
+        android:layout_marginStart="@dimen/margin_between_elements"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/todo_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/todo_content"
-        tools:text="Todo Title"/>
+        tools:text="Todo Title" />
 
     <TextView
         android:id="@+id/todo_content"
         style="@style/Widget.TodoList.ContentTextView"
-        app:layout_constraintTop_toBottomOf="@+id/todo_title"
+        android:layout_marginStart="@dimen/margin_between_elements"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Todo Content"/>
+        app:layout_constraintTop_toBottomOf="@+id/todo_title"
+        tools:text="Todo Content" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/todo_content"
+        app:layout_constraintEnd_toStartOf="@+id/todo_status_button"/>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/todo_status_button"
         style="@style/Widget.TodoList.Button"
+        android:text="@string/status_undone"
         android:layout_marginEnd="@dimen/list_button_right_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="REVERT"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
