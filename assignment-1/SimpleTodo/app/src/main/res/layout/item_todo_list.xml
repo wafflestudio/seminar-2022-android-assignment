@@ -39,7 +39,6 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/todo_status_button"
         style="@style/Widget.TodoList.Button"
-        android:text="@string/status_undone"
         android:layout_marginEnd="@dimen/list_button_right_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

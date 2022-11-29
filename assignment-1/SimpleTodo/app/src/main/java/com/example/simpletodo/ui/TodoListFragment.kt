@@ -1,6 +1,7 @@
 package com.example.simpletodo.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.simpletodo.R
+import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDatabase
 import com.example.simpletodo.databinding.FragmentTodoListBinding
 import com.example.simpletodo.databinding.ItemTodoListBinding
@@ -45,8 +47,11 @@ class TodoListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.v("TodoListFragment", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-        val adapter = TodoListAdapter()
+        val adapter = TodoListAdapter{
+            toggleTodo(it)
+        }
         viewModel.allTodos.observe(this.viewLifecycleOwner){ items ->
             items.let{
                 adapter.submitList(it)
@@ -58,5 +63,34 @@ class TodoListFragment : Fragment() {
             val action = TodoListFragmentDirections.actionTodoListFragmentToTodoAdderFragment()
             this.findNavController().navigate(action)
         }
+        binding.checkbox.isChecked = true
+        binding.checkbox.setOnClickListener {
+            checkboxToggle()
+        }
+    }
+
+    private fun checkboxToggle(){
+        val adapter = TodoListAdapter{
+            toggleTodo(it)
+        }
+        if(binding.checkbox.isChecked){
+            viewModel.allTodos.observe(this.viewLifecycleOwner){ items ->
+                items.let{
+                    adapter.submitList(it)
+                }
+            }
+        }
+        else{
+            viewModel.unDoneTodos.observe(this.viewLifecycleOwner){ items ->
+                items.let{
+                    adapter.submitList(it)
+                }
+            }
+        }
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun toggleTodo(todo: Todo){
+        viewModel.toggleTodo(todo)
     }
 }

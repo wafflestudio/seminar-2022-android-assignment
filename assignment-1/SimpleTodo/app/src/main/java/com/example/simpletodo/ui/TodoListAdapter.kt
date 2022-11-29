@@ -1,16 +1,17 @@
 package com.example.simpletodo.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.simpletodo.R
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.databinding.ItemTodoListBinding
 
 
-class TodoListAdapter()
-//class TodoListAdapter(private val onItemClicked: (Todo) -> Unit)
+class TodoListAdapter(private val onItemClicked: (Todo) -> Unit)
     : ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -19,24 +20,28 @@ class TodoListAdapter()
                 LayoutInflater.from(
                     parent.context
                 )
-            )
+            ), parent.context
         )
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val current = getItem(position)
-//        holder.itemView.setOnClickListener {
-//            onItemClicked(current)
-//        }
-        holder.bind(current)
+        holder.bind(current, onItemClicked)
     }
 
-    class TodoViewHolder(private var binding: ItemTodoListBinding) :
+    class TodoViewHolder(private var binding: ItemTodoListBinding, private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(todo: Todo) {
+        fun bind(todo: Todo, clicked: (Todo) -> Unit) {
             binding.apply{
                 todoTitle.text = todo.title
                 todoContent.text = todo.content
+                todoStatusButton.text = when(todo.isDone) {
+                    true -> context.getString(R.string.status_done)
+                    else -> context.getString(R.string.status_undone)
+                }
+                todoStatusButton.setOnClickListener{
+                    clicked(todo)
+                }
             }
         }
     }

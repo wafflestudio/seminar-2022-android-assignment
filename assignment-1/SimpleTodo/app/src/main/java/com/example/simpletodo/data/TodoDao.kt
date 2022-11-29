@@ -12,11 +12,13 @@ import kotlinx.coroutines.flow.Flow
 interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodo(todo: Todo)
+    @Update
+    suspend fun update(todo: Todo)
 
     @Query("SELECT * from todo_table WHERE id = :id")
     fun getTodo(id: Long): Flow<Todo>
     @Query("SELECT * from todo_table ORDER BY created_at ASC")
     fun getTodos(): Flow<List<Todo>>
-    @Query("SELECT * from todo_table WHERE is_done = 'false'")
+    @Query("SELECT * from todo_table WHERE is_done = 0")
     fun getUndoneTodos(): Flow<List<Todo>>
 }

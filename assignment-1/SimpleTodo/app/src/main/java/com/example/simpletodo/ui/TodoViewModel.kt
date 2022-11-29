@@ -23,6 +23,12 @@ class TodoViewModel(
             todoDao.insertTodo(todo)
         }
     }
+    // 이미 있는 투두를 업데이트
+    private fun updateTodo(todo: Todo) {
+        viewModelScope.launch {
+            todoDao.update(todo)
+        }
+    }
 
     // 새로 만들려는 투두가 올바른지 확인 (addNewTodo를 외부에서 호출하기 전 확인)
     fun isEntryValid(title: String, content: String): Boolean{
@@ -41,8 +47,16 @@ class TodoViewModel(
         )
         insertTodo(newTodo)
     }
-    // id를 통해 원하는 투두를 가져옴
-    fun retrieveTodo(id: Long): LiveData<Todo> {
-        return todoDao.getTodo(id).asLiveData()
+
+    // 투두의 완료 여부를 토글하여 업데이트
+    fun toggleTodo (todo: Todo) {
+        val updatedTodo = Todo(
+            id = todo.id,
+            createdAt = todo.createdAt,
+            title = todo.title,
+            content = todo.content,
+            isDone = !todo.isDone
+        )
+        updateTodo(updatedTodo)
     }
 }
