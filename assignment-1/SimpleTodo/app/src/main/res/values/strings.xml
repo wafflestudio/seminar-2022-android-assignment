@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SimpleTodo</string>
+    <string name="todo_title">Todo Title <font color='#FF0000'>*</font></string>
+    <string name="todo_content">Todo Content <font color='#FF0000'>*</font></string>
+    <string name="add_action">Add</string>
+    <string name="add_new_todo">Add New Todo</string>
+    <string name="show_done_todo">show done todo</string>
+    <string name="button_done">DONE</string>
+    <string name="button_undone">UNDONE</string>
 </resources>

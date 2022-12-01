@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun onClickCell(cellNumber:Int) {
+    private fun onClickCell(cellNumber: Int) {
         viewModel.clickCell(cellNumber)
         updateButtonText()
         updateGameStatusText()
@@ -122,5 +122,6 @@ enum class GameStatus {
 data class GameBoard(
     val board: MutableList<String>
 ) {
-    val cells: MutableList<String> = board}
+    val cells: MutableList<String> = board
+}
 

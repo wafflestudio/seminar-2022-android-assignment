@@ -10,31 +10,56 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.simpletodo.R
+import com.example.simpletodo.SimpleTodoApplication
 import com.example.simpletodo.data.TodoDatabase
+import com.example.simpletodo.databinding.FragmentTodoAdderBinding
 import com.example.simpletodo.databinding.FragmentTodoListBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class TodoListFragment : Fragment() {
-    private lateinit var binding: FragmentTodoListBinding
+    private var _binding: FragmentTodoListBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: TodoViewModel by activityViewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST") if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
-                    return TodoViewModel(TodoDatabase.getDatabase(requireContext()).todoDao()) as T
-                }
-                return super.create(modelClass)
-            }
-        }
+        TodoViewModelFactory(
+            (activity?.application as SimpleTodoApplication).database.todoDao()
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTodoListBinding.inflate(inflater, container, false)
+        _binding = FragmentTodoListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = TodoListAdapter{
+
+        }
+        binding.recyclerView.adapter = adapter
+        viewModel.todoList.observe(this.viewLifecycleOwner) { todos ->
+            todos.let {
+                adapter.submitList(it)
+            }
+        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+        binding.floatingActionButton.setOnClickListener {
+            val action = TodoListFragmentDirections.actionTodoListFragmentToTodoAdderFragment()
+            this.findNavController().navigate(action)
+        }
+
+        binding.checkbox.setOnClickListener {
+            showDoneTodo()
+        }
+    }
+
+    private fun showDoneTodo() {
+
     }
 }

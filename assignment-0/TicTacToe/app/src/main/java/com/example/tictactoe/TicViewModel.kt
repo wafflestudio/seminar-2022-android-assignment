@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 class TicViewModel : ViewModel() {
 
     private var _gameStatus = GameStatus.PlayerOTurn
-    val gameStatus : GameStatus
+    val gameStatus: GameStatus
         get() = _gameStatus
 
     private var _gameBoard = GameBoard(mutableListOf("1", "2", "3", "4", "5", "6", "7", "8", "9"))
-    val gameBoard : GameBoard
+    val gameBoard: GameBoard
         get() = _gameBoard
 
     private var numTurn: Int = 0
@@ -25,59 +25,81 @@ class TicViewModel : ViewModel() {
         if (_gameStatus == GameStatus.PlayerOTurn && !gameEnd) {
             if (numTurn == 9) {
                 gameEnd = true
-                _gameStatus = GameStatus.Draw }
-            else {
-                _gameStatus = GameStatus.PlayerXTurn }
-        }
-        else if (_gameStatus == GameStatus.PlayerXTurn && !gameEnd) {
+                _gameStatus = GameStatus.Draw
+            } else {
+                _gameStatus = GameStatus.PlayerXTurn
+            }
+        } else if (_gameStatus == GameStatus.PlayerXTurn && !gameEnd) {
             if (numTurn == 9) {
                 gameEnd = true
-                _gameStatus = GameStatus.Draw }
-            else {
-                _gameStatus = GameStatus.PlayerOTurn }
-        }
-        else if (_gameStatus == GameStatus.PlayerOTurn && gameEnd) {
+                _gameStatus = GameStatus.Draw
+            } else {
+                _gameStatus = GameStatus.PlayerOTurn
+            }
+        } else if (_gameStatus == GameStatus.PlayerOTurn && gameEnd) {
             _gameStatus = GameStatus.PlayerOWin
-        }
-        else if (_gameStatus == GameStatus.PlayerXTurn && gameEnd) {
+        } else if (_gameStatus == GameStatus.PlayerXTurn && gameEnd) {
             _gameStatus = GameStatus.PlayerXWin
         }
     }
 
     private fun updateBoard(cellNumber: Int) {
         if (_gameStatus == GameStatus.PlayerOTurn) {
-            _gameBoard.cells[cellNumber-1] = "O"
+            _gameBoard.cells[cellNumber - 1] = "O"
         }
         if (_gameStatus == GameStatus.PlayerXTurn) {
-            _gameBoard.cells[cellNumber-1] = "X"
+            _gameBoard.cells[cellNumber - 1] = "X"
         }
-        numTurn ++
+        numTurn++
     }
 
     private fun isWinner() {
-        if (_gameBoard.cells.get(0) == _gameBoard.cells.get(1) && _gameBoard.cells.get(1) == _gameBoard.cells.get(2)
+        if (_gameBoard.cells.get(0) == _gameBoard.cells.get(1) && _gameBoard.cells.get(1) == _gameBoard.cells.get(
+                2
+            )
         ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(3) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(5)) {
+        if (_gameBoard?.cells?.get(3) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(
+                5
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(6) == _gameBoard?.cells?.get(7) && _gameBoard?.cells?.get(7) == _gameBoard?.cells?.get(8)) {
+        if (_gameBoard?.cells?.get(6) == _gameBoard?.cells?.get(7) && _gameBoard?.cells?.get(7) == _gameBoard?.cells?.get(
+                8
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(0) == _gameBoard?.cells?.get(3) && _gameBoard?.cells?.get(3) == _gameBoard?.cells?.get(6)) {
+        if (_gameBoard?.cells?.get(0) == _gameBoard?.cells?.get(3) && _gameBoard?.cells?.get(3) == _gameBoard?.cells?.get(
+                6
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(1) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(7)) {
+        if (_gameBoard?.cells?.get(1) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(
+                7
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(2) == _gameBoard?.cells?.get(5) && _gameBoard?.cells?.get(5) == _gameBoard?.cells?.get(8)) {
+        if (_gameBoard?.cells?.get(2) == _gameBoard?.cells?.get(5) && _gameBoard?.cells?.get(5) == _gameBoard?.cells?.get(
+                8
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(0) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(8)) {
+        if (_gameBoard?.cells?.get(0) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(
+                8
+            )
+        ) {
             gameEnd = true
         }
-        if (_gameBoard?.cells?.get(2) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(6)) {
+        if (_gameBoard?.cells?.get(2) == _gameBoard?.cells?.get(4) && _gameBoard?.cells?.get(4) == _gameBoard?.cells?.get(
+                6
+            )
+        ) {
             gameEnd = true
         }
     }
@@ -88,6 +110,7 @@ class TicViewModel : ViewModel() {
         numTurn = 0
         gameEnd = false
     }
+
     init {
         resetGameBoard()
     }
