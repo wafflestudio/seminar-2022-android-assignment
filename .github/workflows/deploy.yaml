@@ -3,6 +3,7 @@ name: Deploy
 on:
   push:
     branches: [ main ]
+    paths: [ 'project-backend/**' ]
 
 jobs:
   deploy:
@@ -33,7 +34,7 @@ jobs:
         id: build-image
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-             --build-arg SOME_SECRET="${{ secrets.SOME_SECRET }}" \
+             --build-arg ARG_JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}" \
              .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
