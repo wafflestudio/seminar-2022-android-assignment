@@ -1,28 +1,17 @@
 package com.example.simpletodo.ui
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpletodo.R
-import com.example.simpletodo.SimpleTodoApplication
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.databinding.TodoBinding
 
-class TodoListAdapter(private val onItemClicked: (Todo) -> Unit) :
-    ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(DiffCallback) {
 
-//    private val viewModel: TodoViewModel by activityViewModels {
-//        TodoViewModelFactory(
-//            (activity?.application as SimpleTodoApplication).database.todoDao()
-//        )
-//    }
+class TodoListAdapter(private val onItemClicked: (Todo) -> Unit, private val onClickButton: (Todo) -> Unit) :
+    ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(DiffCallback) {
 
     class TodoViewHolder(private val binding: TodoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -52,6 +41,8 @@ class TodoListAdapter(private val onItemClicked: (Todo) -> Unit) :
         holder.itemView.setOnClickListener {
             onItemClicked(current)
         }
+
+        // bind text view to holder
         holder.bind(current)
         // select done or undone text on done_button
         if (current.done) {
@@ -61,7 +52,7 @@ class TodoListAdapter(private val onItemClicked: (Todo) -> Unit) :
         }
 
         holder.button.setOnClickListener {
-            Log.d("TodoListFragment", "Button Clicked")
+            onClickButton(current)
         }
     }
 

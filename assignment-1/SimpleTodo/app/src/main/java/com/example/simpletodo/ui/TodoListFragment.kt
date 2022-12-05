@@ -1,26 +1,20 @@
 package com.example.simpletodo.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.simpletodo.R
 import com.example.simpletodo.SimpleTodoApplication
-import com.example.simpletodo.data.TodoDatabase
-import com.example.simpletodo.databinding.FragmentTodoAdderBinding
+import com.example.simpletodo.data.Todo
 import com.example.simpletodo.databinding.FragmentTodoListBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class TodoListFragment : Fragment() {
+
     private var _binding: FragmentTodoListBinding? = null
     private val binding get() = _binding!!
 
@@ -39,27 +33,60 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = TodoListAdapter{
 
-        }
+        val adapter = TodoListAdapter(
+            onItemClicked = {
+                val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(it.id)
+                this.findNavController().navigate(action)
+            },
+            onClickButton = { todo -> changeDoneButton(todo, todo.id) }
+        )
         binding.recyclerView.adapter = adapter
-        viewModel.todoList.observe(this.viewLifecycleOwner) { todos ->
+
+        // show UNDONE todolist with no checked checkbox
+        viewModel.undoneTodoList.observe(this.viewLifecycleOwner) { todos ->
             todos.let {
+                Log.d("todoList", "todoList1: $it")
                 adapter.submitList(it)
             }
         }
+
+        // choose layout manager
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+
+        // move to todo_adder screen
         binding.floatingActionButton.setOnClickListener {
             val action = TodoListFragmentDirections.actionTodoListFragmentToTodoAdderFragment()
             this.findNavController().navigate(action)
         }
 
         binding.checkbox.setOnClickListener {
-            showDoneTodo()
+            //show all todolist without undone todolist with checked checkbox
+            if (binding.checkbox.isChecked) {
+                viewModel.todoList.observe(this.viewLifecycleOwner) { todos ->
+                    todos.let {
+                        Log.d("todoList", "todoList2: $it")
+                        adapter.submitList(it)
+                    }
+                }
+            }
+            // if unchecked checkbox show UNDONE todolist
+            else {
+                viewModel.undoneTodoList.observe(this.viewLifecycleOwner) { todos ->
+                    todos.let {
+                        Log.d("todoList", "todoList3: $it")
+                        adapter.submitList(it)
+                    }
+                }
+            }
         }
     }
-
-    private fun showDoneTodo() {
-
+    // If DoneButton is clicked, change done db and text
+    private fun changeDoneButton(todo: Todo, id: Long) {
+        if (todo.done) {
+            viewModel.doneToUndone(id)
+        } else {
+            viewModel.undoneToDone(id)
+        }
     }
 }

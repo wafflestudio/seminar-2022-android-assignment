@@ -1,16 +1,28 @@
 package com.example.simpletodo.ui
 
+import android.content.ClipData
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDao
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class TodoViewModel(
     private val todoDao: TodoDao
 ) : ViewModel() {
     val todoList: LiveData<List<Todo>> = todoDao.getTodoList().asLiveData()
+    val undoneTodoList: LiveData<List<Todo>> = todoDao.getUndoneList().asLiveData()
+
+//    var twinTodoListValid: MediatorLiveData<Boolean> = MediatorLiveData()
+
+//    twinTodoListValid.addSource(todoList, {
+//        twinTodoListValid.value = todoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
+//    })
+//
+//    twinTodoListValid.addSource(undoneTodoList, {
+//        twinTodoListValid.value = todoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
+//    })
 
     fun retrieveTodo(id: Long) : LiveData<Todo>{
         return todoDao.getTodo(id).asLiveData()
@@ -27,12 +39,7 @@ class TodoViewModel(
         }
     }
 
-    fun updateTodo(title: String, content: String, done: Boolean = false) {
-        val todo = Todo(
-            title = title,
-            content = content,
-            done = done
-        )
+    private fun updateTodo(todo: Todo) {
         viewModelScope.launch {
             todoDao.updateTodo(todo)
         }
@@ -48,6 +55,7 @@ class TodoViewModel(
         viewModelScope.launch {
             todoDao.undoneToDone(id)
         }
+        Log.d("button", "fun activated")
     }
 
     fun doneToUndone(id: Long) {
@@ -58,6 +66,30 @@ class TodoViewModel(
 
     fun isEntryValid(title: String, content: String): Boolean {
         return title.isNotBlank() && content.isNotBlank()
+    }
+
+    private fun getUpdatedTodoEntry(
+        id: Long,
+        title: String,
+        content: String,
+        done: Boolean
+    ): Todo {
+        return Todo(
+            id = id,
+            title = title,
+            content = content,
+            done = done
+        )
+    }
+
+    fun saveUpdatedTodo(
+        id: Long,
+        title: String,
+        content: String,
+        done: Boolean
+    ) {
+        val updatedTodo = getUpdatedTodoEntry(id, title, content, done)
+        updateTodo(updatedTodo)
     }
 }
 

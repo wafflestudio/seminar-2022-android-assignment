@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.simpletodo.R
 import com.example.simpletodo.SimpleTodoApplication
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDatabase
@@ -20,6 +21,7 @@ import com.example.simpletodo.databinding.FragmentTodoAdderBinding
 import kotlinx.coroutines.launch
 
 class TodoAdderFragment : Fragment() {
+
     private var _binding: FragmentTodoAdderBinding? = null
     private val binding get() = _binding!!
 
@@ -40,6 +42,7 @@ class TodoAdderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.saveAction.setOnClickListener {
             addNewTodo()
+            Toast.makeText(requireActivity(), R.string.toast_message_add, Toast.LENGTH_SHORT).show()
         }
     }
 
