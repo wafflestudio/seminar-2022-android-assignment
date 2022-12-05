@@ -1,6 +1,6 @@
 package com.example.simplecms.di
 
-import com.example.simplecms.PostViewModel
+import com.example.simplecms.PostListViewModel
 import com.example.simplecms.UserViewModel
 import com.example.simplecms.network.RestService
 import com.example.simplecms.util.AuthStorage
@@ -33,6 +33,6 @@ val appModule = module {
             .build()
     }
 
-    viewModel { UserViewModel(get()) }
-    viewModel { PostViewModel() }
+    viewModel { UserViewModel(get(), get()) }
+    viewModel { PostListViewModel() }
 }
