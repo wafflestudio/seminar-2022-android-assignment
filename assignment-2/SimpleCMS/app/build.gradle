@@ -68,4 +68,6 @@ dependencies {
     implementation "io.insert-koin:koin-core:3.2.2"
     implementation "io.insert-koin:koin-android:3.2.2"
     implementation "io.insert-koin:koin-androidx-compose:3.2.2"
+    implementation "androidx.paging:paging-runtime:3.1.1"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
 }
