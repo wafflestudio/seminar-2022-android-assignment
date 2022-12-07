@@ -1,5 +1,6 @@
 package com.example.simpletodo.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,13 +32,16 @@ class TodoListAdapter(private val onItemClicked: (Todo) -> Unit)
 
     class TodoViewHolder(private var binding: ItemTodoListBinding, private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(todo: Todo, clicked: (Todo) -> Unit) {
             binding.apply{
                 todoTitle.text = todo.title
                 todoContent.text = todo.content
-                todoStatusButton.text = when(todo.isDone) {
-                    true -> context.getString(R.string.status_done)
-                    else -> context.getString(R.string.status_undone)
+                todoStatusButton.apply {
+                    text = when (todo.isDone) {
+                        true -> context.getString(R.string.status_done)
+                        else -> context.getString(R.string.status_undone)
+                    }
                 }
                 todoStatusButton.setOnClickListener{
                     clicked(todo)

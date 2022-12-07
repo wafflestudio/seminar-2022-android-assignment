@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.simpletodo.R
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDatabase
 import com.example.simpletodo.databinding.FragmentTodoAdderBinding
@@ -53,6 +54,8 @@ class TodoAdderFragment : Fragment() {
                 binding.newTodoContent.text.toString()
             )
         }
+        val myToast = Toast.makeText(context, R.string.add_new_item, Toast.LENGTH_SHORT)
+        myToast.show()
         val action = TodoAdderFragmentDirections.actionTodoAdderFragmentToTodoListFragment()
         findNavController().navigate(action)
     }
