@@ -5,6 +5,7 @@ import com.example.simplecms.UserViewModel
 import com.example.simplecms.network.RestService
 import com.example.simplecms.util.AuthStorage
 import com.example.simplecms.util.LocalDateTimeConverter
+import com.example.simplecms.util.PostPagingSource
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -34,5 +35,6 @@ val appModule = module {
     }
 
     viewModel { UserViewModel(get(), get()) }
-    viewModel { PostListViewModel() }
+    viewModel { PostListViewModel(get()) }
+    factory { PostPagingSource(get()) }
 }

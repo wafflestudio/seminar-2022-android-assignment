@@ -10,9 +10,7 @@ import com.example.simplecms.util.PostPagingSource
 class PostListViewModel(
     private val postPagingSource: PostPagingSource
 ) : ViewModel() {
-
     val pager = Pager(PagingConfig(pageSize = 15)) {
         postPagingSource
     }.flow.cachedIn(viewModelScope)
-
 }
