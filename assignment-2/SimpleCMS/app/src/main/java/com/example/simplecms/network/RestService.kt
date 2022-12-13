@@ -7,7 +7,7 @@ interface RestService {
     @POST("/auth/login")
     suspend fun login(@Body() request: LoginRequest): LoginResult
 
-    @GET("/post/:postId")
+    @GET("/post/{postId}")
     suspend fun getPost(@Path("postId") postId: Int): GetPostResponse
 
     @GET("/post")
@@ -19,15 +19,16 @@ interface RestService {
     @POST("/post")
     suspend fun createPost(@Body() request: CreatePostRequest): CreatePostResponse
 
-    @POST("/post/:postId/comment")
+    @POST("/post/{postId}/comment")
     suspend fun createComment(
         @Body() request: CreateCommentRequest,
         @Path("postId") postId: Int
     ): CreateCommentResponse
 
-    @GET("/post/:postId")
-    suspend fun deletePost(@Path("postId") postId: Int): Unit
+    // TODO: update on deletion
+    @DELETE("/post/{postId}")
+    suspend fun deletePost(@Path("postId") postId: Int)
 
-    @GET("/post/comment/:commentId")
-    suspend fun deleteComment(@Path("commentId") commentId: Int): Unit
+    @DELETE("/post/comment/{commentId}")
+    suspend fun deleteComment(@Path("commentId") commentId: Int)
 }

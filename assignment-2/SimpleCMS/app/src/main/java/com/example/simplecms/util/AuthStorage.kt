@@ -11,17 +11,21 @@ class AuthStorage(
 ) {
     private val sharedPref =
         context.getSharedPreferences(SharedPreferenceName, Context.MODE_PRIVATE)
-
-    private val _authInfo = MutableStateFlow(
-        AuthInfo(
-            accessToken = sharedPref.getString(AccessTokenKey, "")!!,
-            UserDTO(
-                id = sharedPref.getInt(UserIdKey, -1),
-                username = sharedPref.getString(UsernameKey, "")!!,
-            )
+    private val _authInfo: MutableStateFlow<AuthInfo?> =
+        MutableStateFlow(
+            if ((sharedPref.getString(AccessTokenKey, "") ?: "").isEmpty()) {
+                null
+            } else {
+                AuthInfo(
+                    accessToken = sharedPref.getString(AccessTokenKey, "")!!,
+                    UserDTO(
+                        id = sharedPref.getInt(UserIdKey, -1),
+                        username = sharedPref.getString(UsernameKey, "")!!,
+                    )
+                )
+            }
         )
-    )
-    val authInfo: StateFlow<AuthInfo> = _authInfo
+    val authInfo: StateFlow<AuthInfo?> = _authInfo
 
     fun setAuthInfo(token: String, user: UserDTO) {
         _authInfo.value = AuthInfo(token, user)

@@ -25,15 +25,25 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.simplecms.network.dto.PostDTO
 import com.example.simplecms.network.dto.UserDTO
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
 
 @Composable
-fun PostListContainer(viewModel: PostListViewModel = koinViewModel()) {
+fun PostListContainer(
+    viewModel: PostListViewModel = koinViewModel(),
+    navigateToDetail: (Int) -> Unit
+) {
     val postData = viewModel.pager.collectAsLazyPagingItems()
-    val onCreatePost: () -> Unit = {}
-    val onClickPost: (Int) -> Unit = {}
+    val onCreatePost: suspend (title: String, content: String) -> Unit =
+        { title, content ->
+            viewModel.createPost(title = title, content = content)
+            postData.refresh()
+        }
+    val onClickPost: (Int) -> Unit = navigateToDetail
+
     PostListPage(
         postData = postData,
         onCreatePost = onCreatePost,
@@ -44,18 +54,19 @@ fun PostListContainer(viewModel: PostListViewModel = koinViewModel()) {
 @Composable
 private fun PostListPage(
     postData: LazyPagingItems<PostDTO>,
-    onCreatePost: () -> Unit,
+    onCreatePost: suspend (title: String, content: String) -> Unit,
     onClickPost: (Int) -> Unit,
 ) {
     var isCreatePostDialogVisible by remember { mutableStateOf(false) }
 
     if (isCreatePostDialogVisible) {
         CreatePostDialog(
-            onSubmit = { _, _ ->
-                onCreatePost()
+            onSubmit = { title, content ->
+                onCreatePost(title, content)
                 isCreatePostDialogVisible = false
             },
-            onHide = { isCreatePostDialogVisible = false }
+            onHide = { isCreatePostDialogVisible = false },
+            scope = rememberCoroutineScope()
         )
     }
 
@@ -183,8 +194,9 @@ private fun LoadingItem(modifier: Modifier = Modifier) {
 
 @Composable
 private fun CreatePostDialog(
-    onSubmit: (title: String, content: String) -> Unit,
-    onHide: () -> Unit
+    onSubmit: suspend (title: String, content: String) -> Unit,
+    onHide: () -> Unit,
+    scope: CoroutineScope,
 ) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
@@ -216,7 +228,11 @@ private fun CreatePostDialog(
                 label = { Text(text = "Content") },
                 onValueChange = { content = it }
             )
-            Button(onClick = { onSubmit(title, content) }) {
+            Button(onClick = {
+                scope.launch {
+                    onSubmit(title, content)
+                }
+            }) {
                 Text(text = "Submit")
             }
         }
@@ -259,7 +275,7 @@ private fun ItemPreview() {
 
     PostListPage(
         postData = items,
-        onCreatePost = {},
+        onCreatePost = { _, _ -> },
         onClickPost = {},
     )
 }

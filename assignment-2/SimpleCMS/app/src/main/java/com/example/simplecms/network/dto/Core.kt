@@ -22,3 +22,8 @@ data class PostDTO(
     val comments: List<CommentDTO>,
     val createdAt: LocalDateTime,
 )
+
+data class ErrorDTO(
+    val statusCode: Int?,
+    val message: String?,
+)

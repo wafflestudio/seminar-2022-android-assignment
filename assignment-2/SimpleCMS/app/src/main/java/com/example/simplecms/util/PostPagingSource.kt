@@ -17,10 +17,14 @@ class PostPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PostDTO> {
         val response = restService.getAllPostPaged(cursor = params.key, count = params.loadSize)
+        val prevItemId = ((params.key ?: 0) - params.loadSize).let {
+            if (it > 0) it
+            else null
+        }
         return LoadResult.Page(
             data = response.posts,
             nextKey = response.nextCursor,
-            prevKey = ((params.key ?: 0) - params.loadSize).coerceAtLeast(1)
+            prevKey = prevItemId
         )
     }
 }

@@ -28,6 +28,11 @@ fun PostDetailContainer(
 ) {
     val post by viewModel.post.collectAsState()
     val isOwner by viewModel.isOwner.collectAsState()
+
+    LaunchedEffect(true) {
+        viewModel.refresh()
+    }
+
     if (post != null) {
         PostDetailPage(
             post = post!!,
@@ -65,7 +70,11 @@ private fun PostDetailPage(
                     )
                 )
                 if (isDeletable) {
-                    IconButton(onClick = { coroutineScope.launch { onDeletePost() } }) {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            onDeletePost()
+                        }
+                    }) {
                         Image(
                             modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.ic_baseline_delete_24),
@@ -173,7 +182,12 @@ private fun PostDetailPage(
 
     if (isCommentDialogVisible) {
         CreateCommentDialog(
-            onSubmit = { coroutineScope.launch { onSubmitComment(it) } },
+            onSubmit = {
+                coroutineScope.launch {
+                    onSubmitComment(it)
+                    isCommentDialogVisible = false
+                }
+            },
             onHide = { isCommentDialogVisible = false }
         )
     }
