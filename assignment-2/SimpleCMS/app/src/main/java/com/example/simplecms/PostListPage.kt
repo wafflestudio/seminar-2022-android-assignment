@@ -1,23 +1,23 @@
 package com.example.simplecms
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -47,6 +47,18 @@ private fun PostListPage(
     onCreatePost: () -> Unit,
     onClickPost: (Int) -> Unit,
 ) {
+    var isCreatePostDialogVisible by remember { mutableStateOf(false) }
+
+    if (isCreatePostDialogVisible) {
+        CreatePostDialog(
+            onSubmit = { _, _ ->
+                onCreatePost()
+                isCreatePostDialogVisible = false
+            },
+            onHide = { isCreatePostDialogVisible = false }
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -64,7 +76,7 @@ private fun PostListPage(
                     )
                 )
 
-                IconButton(onClick = { onCreatePost() }) {
+                IconButton(onClick = { isCreatePostDialogVisible = true }) {
                     Image(
                         modifier = Modifier.size(32.dp),
                         painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -167,6 +179,48 @@ private fun LoadingItem(modifier: Modifier = Modifier) {
         color = MaterialTheme.colors.onSurface,
         textAlign = TextAlign.Center,
     )
+}
+
+@Composable
+private fun CreatePostDialog(
+    onSubmit: (title: String, content: String) -> Unit,
+    onHide: () -> Unit
+) {
+    var title by remember { mutableStateOf("") }
+    var content by remember { mutableStateOf("") }
+    Dialog(onDismissRequest = { onHide() }) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(12.dp))
+                .background(color = MaterialTheme.colors.background)
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Create Post",
+                style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colors.primary,
+            )
+
+            TextField(
+                value = title,
+                label = { Text(text = "Title") },
+                onValueChange = { title = it }
+            )
+            TextField(value = content,
+                label = { Text(text = "Content") },
+                onValueChange = { content = it }
+            )
+            Button(onClick = { onSubmit(title, content) }) {
+                Text(text = "Submit")
+            }
+        }
+    }
 }
 
 @Preview

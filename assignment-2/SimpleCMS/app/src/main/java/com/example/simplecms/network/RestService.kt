@@ -1,11 +1,7 @@
 package com.example.simplecms.network
 
 import com.example.simplecms.network.dto.*
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface RestService {
     @POST("/auth/login")
@@ -28,4 +24,10 @@ interface RestService {
         @Body() request: CreateCommentRequest,
         @Path("postId") postId: Int
     ): CreateCommentResponse
+
+    @GET("/post/:postId")
+    suspend fun deletePost(@Path("postId") postId: Int): Unit
+
+    @GET("/post/comment/:commentId")
+    suspend fun deleteComment(@Path("commentId") commentId: Int): Unit
 }

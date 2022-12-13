@@ -15,13 +15,23 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginPage() {
-    var username by remember { mutableStateOf<String>("") }
-    var password by remember { mutableStateOf<String>("") }
+fun LoginContainer(viewModel: UserViewModel = koinViewModel()) {
+    val onSubmitLogin: suspend (String, String) -> Unit = viewModel::login
+    LoginPage(onSubmitLogin = onSubmitLogin)
+}
+
+@Composable
+fun LoginPage(
+    onSubmitLogin: suspend (String, String) -> Unit
+) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(vertical = 40.dp, horizontal = 10.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 40.dp, horizontal = 10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -53,7 +63,7 @@ fun LoginPage() {
                 .padding(top = 20.dp),
             onClick = {
                 scope.launch {
-//                    viewModel.login(username, password)
+                    onSubmitLogin(username, password)
                 }
             }) {
             Text(text = "Login")
@@ -64,5 +74,5 @@ fun LoginPage() {
 @Composable
 @Preview
 private fun LoginPagePreview() {
-    LoginPage()
+    LoginPage(onSubmitLogin = { _, _ -> })
 }

@@ -1,40 +1,55 @@
 package com.example.simplecms
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.simplecms.network.dto.CommentDTO
 import com.example.simplecms.network.dto.PostDTO
 import com.example.simplecms.network.dto.UserDTO
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
 
+@Composable
+fun PostDetailContainer(
+    viewModel: PostDetailViewModel
+) {
+    val post by viewModel.post.collectAsState()
+    val isOwner by viewModel.isOwner.collectAsState()
+    if (post != null) {
+        PostDetailPage(
+            post = post!!,
+            onDeletePost = { viewModel.deletePost() },
+            onSubmitComment = { viewModel.createComment(it) },
+            onDeleteComment = { viewModel.deleteComment(it) },
+            isDeletable = isOwner
+        )
+    }
+}
 
 @Composable
 private fun PostDetailPage(
     post: PostDTO,
-    onDeletePost: () -> Unit,
-    onSubmitComment: (String) -> Unit,
-    onDeleteComment: (Int) -> Unit,
+    onDeletePost: suspend () -> Unit,
+    onSubmitComment: suspend (String) -> Unit,
+    onDeleteComment: suspend (Int) -> Unit,
+    isDeletable: Boolean,
 ) {
+    var isCommentDialogVisible by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -49,12 +64,14 @@ private fun PostDetailPage(
                         color = MaterialTheme.colors.onPrimary, fontWeight = FontWeight.Medium
                     )
                 )
-                IconButton(onClick = { onDeletePost() }) {
-                    Image(
-                        modifier = Modifier.size(32.dp),
-                        painter = painterResource(id = R.drawable.ic_baseline_delete_24),
-                        contentDescription = "twitch"
-                    )
+                if (isDeletable) {
+                    IconButton(onClick = { coroutineScope.launch { onDeletePost() } }) {
+                        Image(
+                            modifier = Modifier.size(32.dp),
+                            painter = painterResource(id = R.drawable.ic_baseline_delete_24),
+                            contentDescription = "twitch"
+                        )
+                    }
                 }
             }
         }
@@ -123,22 +140,47 @@ private fun PostDetailPage(
                     .background(MaterialTheme.colors.onBackground.copy(alpha = 0.2f)),
             )
 
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = "${post.comments.size} Comments",
-                style = MaterialTheme.typography.subtitle1,
-                color = MaterialTheme.colors.primaryVariant,
-            )
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = "${post.comments.size} Comments",
+                    style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.primaryVariant,
+                )
+
+                IconButton(onClick = { isCommentDialogVisible = true }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                        contentDescription = "",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
+                    )
+                }
+            }
 
             post.comments.forEach { item ->
-                CommentItem(comment = item, isDeletable = false)
+                CommentItem(
+                    comment = item,
+                    isDeletable = true,
+                    onDeleteComment = { coroutineScope.launch { onDeleteComment(item.id) } },
+                )
             }
         }
+    }
+
+    if (isCommentDialogVisible) {
+        CreateCommentDialog(
+            onSubmit = { coroutineScope.launch { onSubmitComment(it) } },
+            onHide = { isCommentDialogVisible = false }
+        )
     }
 }
 
 @Composable
-private fun CommentItem(comment: CommentDTO, isDeletable: Boolean) {
+private fun CommentItem(comment: CommentDTO, onDeleteComment: () -> Unit, isDeletable: Boolean) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,19 +199,23 @@ private fun CommentItem(comment: CommentDTO, isDeletable: Boolean) {
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (isDeletable) {
-                    IconButton(onClick = {}) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_baseline_delete_24),
-                            contentDescription = ""
-                        )
-                    }
-                }
 
                 val text = listOf(
                     "by ${comment.author.username}",
                     "at ${DateTimeFormatter.ISO_LOCAL_DATE.format(comment.createdAt)}"
                 ).joinToString("  •  ")
+
+                if (isDeletable) {
+                    Image(
+                        modifier = Modifier
+                            .padding(end = 4.dp)
+                            .size(18.dp)
+                            .clickable { onDeleteComment() },
+                        painter = painterResource(id = R.drawable.ic_baseline_delete_24),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface.copy(alpha = 0.4f)),
+                        contentDescription = ""
+                    )
+                }
 
                 Text(
                     text = text,
@@ -180,8 +226,44 @@ private fun CommentItem(comment: CommentDTO, isDeletable: Boolean) {
             }
         }
     }
+}
 
+@Composable
+private fun CreateCommentDialog(onSubmit: (String) -> Unit, onHide: () -> Unit) {
+    var content by remember { mutableStateOf("") }
 
+    Dialog(onDismissRequest = { onHide() }) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(12.dp))
+                .background(color = MaterialTheme.colors.background)
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Create Comment",
+                style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colors.primary,
+            )
+
+            TextField(value = content, onValueChange = { content = it })
+
+            Button(onClick = { onSubmit(content) }) {
+                Text(text = "Submit")
+            }
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun CreateCommentDialogPreview() {
+    CreateCommentDialog(onSubmit = {}, onHide = {})
 }
 
 @Composable
@@ -282,13 +364,8 @@ private fun PostDetailPagePreview() {
                     author = user2,
                     createdAt = time,
                 ),
-            ),
-            createdAt = time,
-            author = UserDTO(id = 1, username = "김상민")
-        ),
-        onDeletePost = {},
-        onSubmitComment = {},
-        onDeleteComment = {},
+            ), createdAt = time, author = UserDTO(id = 1, username = "김상민")
+        ), onDeletePost = {}, onSubmitComment = {}, onDeleteComment = {}, isDeletable = true
     )
 }
 
