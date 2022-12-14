@@ -26,10 +26,6 @@ class TodoViewModel(
 
     private fun isValidEnterInfo() = !todoList.value.isNullOrEmpty() && !undoneTodoList.value.isNullOrEmpty()
 
-//    twinTodoListValid.addSource(undoneTodoList, {
-//        twinTodoListValid.value = undoneTodoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
-//    })
-
     fun retrieveTodo(id: Long) : LiveData<Todo>{
         return todoDao.getTodo(id).asLiveData()
     }

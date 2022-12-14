@@ -74,7 +74,6 @@ class TodoListFragment : Fragment() {
         }
 
         // drawing UI at first
-        // with using onSaveInstanceState
         if (checkBox == 1) {
             binding.checkbox.isChecked = false
             showTodoList()
@@ -82,27 +81,6 @@ class TodoListFragment : Fragment() {
             binding.checkbox.isChecked = true
             showTodoList()
         }
-
-        // with using LiveData checkBox
-//        val checkBox = MutableLiveData<Boolean>()
-//        checkBox.value = binding.checkbox.isChecked
-//        checkBox.observe(this.viewLifecycleOwner) {
-//            Log.d("checkbox", "checkbox: $it")
-//            if (it) {
-//                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
-//                    if (it) {
-//                        viewModel.todoList.let {adapter.submitList( it.value )}
-//                    }
-//                }
-//            }
-//            else {
-//                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
-//                    if (it) {
-//                        viewModel.undoneTodoList.let {adapter.submitList( it.value )}
-//                    }
-//                }
-//            }
-//        }
 
         // choose layout manager
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -114,7 +92,6 @@ class TodoListFragment : Fragment() {
         }
 
         binding.checkbox.setOnClickListener {
-//            checkBox.value = binding.checkbox.isChecked
             checkBox *= -1
             showTodoList()
         }
