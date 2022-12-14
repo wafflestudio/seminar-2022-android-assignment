@@ -1,6 +1,7 @@
 package com.example.simplecms
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -8,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +54,7 @@ fun LoginPage(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password, onValueChange = { password = it },
+            visualTransformation = PasswordVisualTransformation(),
             label = { Text(text = "Password") },
             singleLine = true
         )
