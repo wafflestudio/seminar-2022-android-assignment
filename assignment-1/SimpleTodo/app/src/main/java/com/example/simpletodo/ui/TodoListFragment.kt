@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.simpletodo.SimpleTodoApplication
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.databinding.FragmentTodoListBinding
 
+const val KEY_CHECKBOX = "checkbox_key"
+
 class TodoListFragment : Fragment() {
 
     private var _binding: FragmentTodoListBinding? = null
     private val binding get() = _binding!!
+    private var checkBox: Int = 1
 
     private val viewModel: TodoViewModel by activityViewModels {
         TodoViewModelFactory(
@@ -34,6 +39,10 @@ class TodoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null) {
+            checkBox = savedInstanceState.getInt(KEY_CHECKBOX, 1)
+        }
+
         val adapter = TodoListAdapter(
             onItemClicked = {
                 val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(it.id)
@@ -43,13 +52,57 @@ class TodoListFragment : Fragment() {
         )
         binding.recyclerView.adapter = adapter
 
-        // show UNDONE todolist with no checked checkbox
-        viewModel.undoneTodoList.observe(this.viewLifecycleOwner) { todos ->
-            todos.let {
-                Log.d("todoList", "todoList1: $it")
-                adapter.submitList(it)
+        fun showTodoList() {
+            //show all todolist without undone todolist with checked checkbox
+            if (binding.checkbox.isChecked) {
+                Log.d("checkbox", "checkbox: $checkBox")
+                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
+                    if (it) {
+                        viewModel.todoList.let {adapter.submitList( it.value )}
+                    }
+                }
+            }
+            // if unchecked checkbox show UNDONE todolist
+            else {
+                Log.d("checkbox", "checkbox: $checkBox")
+                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
+                    if (it) {
+                        viewModel.undoneTodoList.let {adapter.submitList( it.value )}
+                    }
+                }
             }
         }
+
+        // drawing UI at first
+        // with using onSaveInstanceState
+        if (checkBox == 1) {
+            binding.checkbox.isChecked = false
+            showTodoList()
+        } else {
+            binding.checkbox.isChecked = true
+            showTodoList()
+        }
+
+        // with using LiveData checkBox
+//        val checkBox = MutableLiveData<Boolean>()
+//        checkBox.value = binding.checkbox.isChecked
+//        checkBox.observe(this.viewLifecycleOwner) {
+//            Log.d("checkbox", "checkbox: $it")
+//            if (it) {
+//                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
+//                    if (it) {
+//                        viewModel.todoList.let {adapter.submitList( it.value )}
+//                    }
+//                }
+//            }
+//            else {
+//                viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
+//                    if (it) {
+//                        viewModel.undoneTodoList.let {adapter.submitList( it.value )}
+//                    }
+//                }
+//            }
+//        }
 
         // choose layout manager
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -61,26 +114,18 @@ class TodoListFragment : Fragment() {
         }
 
         binding.checkbox.setOnClickListener {
-            //show all todolist without undone todolist with checked checkbox
-            if (binding.checkbox.isChecked) {
-                viewModel.todoList.observe(this.viewLifecycleOwner) { todos ->
-                    todos.let {
-                        Log.d("todoList", "todoList2: $it")
-                        adapter.submitList(it)
-                    }
-                }
-            }
-            // if unchecked checkbox show UNDONE todolist
-            else {
-                viewModel.undoneTodoList.observe(this.viewLifecycleOwner) { todos ->
-                    todos.let {
-                        Log.d("todoList", "todoList3: $it")
-                        adapter.submitList(it)
-                    }
-                }
-            }
+//            checkBox.value = binding.checkbox.isChecked
+            checkBox *= -1
+            showTodoList()
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(KEY_CHECKBOX, checkBox)
+    }
+
     // If DoneButton is clicked, change done db and text
     private fun changeDoneButton(todo: Todo, id: Long) {
         if (todo.done) {

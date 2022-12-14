@@ -2,9 +2,11 @@ package com.example.simpletodo.ui
 
 import android.content.ClipData
 import android.util.Log
+import android.widget.Button
 import androidx.lifecycle.*
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDao
+import com.example.simpletodo.databinding.FragmentTodoListBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -13,15 +15,19 @@ class TodoViewModel(
 ) : ViewModel() {
     val todoList: LiveData<List<Todo>> = todoDao.getTodoList().asLiveData()
     val undoneTodoList: LiveData<List<Todo>> = todoDao.getUndoneList().asLiveData()
+    var todoListMerger: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(todoList) {
+            value = isValidEnterInfo()
+        }
+        addSource(undoneTodoList) {
+            value = isValidEnterInfo()
+        }
+    }
 
-//    var twinTodoListValid: MediatorLiveData<Boolean> = MediatorLiveData()
+    private fun isValidEnterInfo() = !todoList.value.isNullOrEmpty() && !undoneTodoList.value.isNullOrEmpty()
 
-//    twinTodoListValid.addSource(todoList, {
-//        twinTodoListValid.value = todoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
-//    })
-//
 //    twinTodoListValid.addSource(undoneTodoList, {
-//        twinTodoListValid.value = todoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
+//        twinTodoListValid.value = undoneTodoList.value?.isNotEmpty() == true && this?.isNotEmpty() ?: false
 //    })
 
     fun retrieveTodo(id: Long) : LiveData<Todo>{
