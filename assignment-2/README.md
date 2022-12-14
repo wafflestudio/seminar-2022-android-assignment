@@ -43,7 +43,7 @@
     - 로그인 시 발급되는 토큰을 저장하고 있다가, 인증이 필요한 API 를 요청할 때 HTTP Header 에 함께 전달하는 방식으로 인증이 처리됩니다.
 3. 이번 과제를 구현하기 위해서는 많은 양의 자료를 쪼개어 (필요한 만큼만) 전달받고, 필요시 더 요청하는 pagination (cursor pagination) 을 공부하면 좋습니다. [참고자료](https://velog.io/@minsangk/%EC%BB%A4%EC%84%9C-%EA%B8%B0%EB%B0%98-%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-Cursor-based-Pagination-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
     - 특히, 안드로이드에서 Paging 을 구현하기 위해 일반적으로 사용되는 [Jetpack Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) 라이브러리를 사용해서 구현하는 것을 매우 권장드립니다.
-4. 이번 과제는 처음부터 끝까지 구현하는 난이도가 상당히 높은편에 속하여 도움을 드리기 위해 **실제 작동하는 완성된 데모 프로젝트 코드를 과제와 함께 공개** 합니다.
+4. 이번 과제는 처음부터 끝까지 구현하는 난이도가 상당히 높은편에 속하여 도움을 드리기 위해 **실제 작동하는 완성된 데모 프로젝트 코드를 과제와 함께 공개** 합니다. [링크](https://github.com/wafflestudio/seminar-2022-android-assignment/tree/main/assignment-2/SimpleCMS-Demo)
     - ViewModel 이나 Rest API 와 관련된 코드는 참고할 수 있지만, UI 위한 코드는 기존 배우신 xml 기반이 아닌 Jetpack compose 를 기반으로 작성하였으니 이 부분은 따라 작성하지 마시고 스스로 작성해 보시길 추천드립니다.
 
 ## 앱 데모
