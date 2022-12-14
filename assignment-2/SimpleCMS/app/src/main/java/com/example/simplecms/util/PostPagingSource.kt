@@ -10,9 +10,7 @@ class PostPagingSource(
 ) : PagingSource<Int, PostDTO>() {
 
     override fun getRefreshKey(state: PagingState<Int, PostDTO>): Int? {
-        val anchorPosition = state.anchorPosition ?: return null
-        val post = state.closestItemToPosition(anchorPosition) ?: return null
-        return post.id - state.config.pageSize / 2
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PostDTO> {

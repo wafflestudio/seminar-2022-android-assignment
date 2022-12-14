@@ -53,6 +53,7 @@ class PostDetailViewModel(
     suspend fun deleteComment(commentId: Int) {
         try {
             restService.deleteComment(commentId = commentId)
+            refresh()
             toaster.toast("Successfully deleted.")
         } catch (e: Exception) {
             toaster.toastApiError(e)

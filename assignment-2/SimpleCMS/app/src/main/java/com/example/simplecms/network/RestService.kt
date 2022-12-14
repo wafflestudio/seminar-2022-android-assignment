@@ -1,6 +1,7 @@
 package com.example.simplecms.network
 
 import com.example.simplecms.network.dto.*
+import retrofit2.Response
 import retrofit2.http.*
 
 interface RestService {
@@ -27,8 +28,8 @@ interface RestService {
 
     // TODO: update on deletion
     @DELETE("/post/{postId}")
-    suspend fun deletePost(@Path("postId") postId: Int)
+    suspend fun deletePost(@Path("postId") postId: Int): Response<Unit>
 
     @DELETE("/post/comment/{commentId}")
-    suspend fun deleteComment(@Path("commentId") commentId: Int)
+    suspend fun deleteComment(@Path("commentId") commentId: Int): Response<Unit>
 }
