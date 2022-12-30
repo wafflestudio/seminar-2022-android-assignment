@@ -6,4 +6,86 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameStatusTextView"
+        android:text="@string/game_status_monitor_player_o_turn"
+        app:layout_constraintBottom_toTopOf="@id/board"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <GridLayout
+        android:id="@+id/board"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <Button
+            android:id="@+id/cell_0"
+            android:layout_row="0"
+            android:layout_column="0"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_1"
+            android:layout_row="0"
+            android:layout_column="1"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_2"
+            android:layout_row="0"
+            android:layout_column="2"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_3"
+            android:layout_row="1"
+            android:layout_column="0"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_4"
+            android:layout_row="1"
+            android:layout_column="1"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_5"
+            android:layout_row="1"
+            android:layout_column="2"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_6"
+            android:layout_row="2"
+            android:layout_column="0"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_7"
+            android:layout_row="2"
+            android:layout_column="1"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/cell_8"
+            android:layout_row="2"
+            android:layout_column="2"
+            style="@style/button"/>
+
+    </GridLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/restartButton"
+        android:text="@string/restart_game_btn"
+        app:layout_constraintTop_toBottomOf="@id/board"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@color/gray"
+        android:textColor="@color/black"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
