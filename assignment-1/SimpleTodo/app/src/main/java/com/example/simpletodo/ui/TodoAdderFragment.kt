@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.simpletodo.R
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDatabase
 import com.example.simpletodo.databinding.FragmentTodoAdderBinding
@@ -35,5 +36,28 @@ class TodoAdderFragment : Fragment() {
     ): View {
         binding = FragmentTodoAdderBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.submitButton.setOnClickListener { addNewTodo() }
+    }
+
+    private fun isEntryValid(): Boolean {
+        return viewModel.isEntryValid(
+            binding.inputTitle.editText?.text.toString(),
+            binding.inputContent.editText?.text.toString()
+        )
+    }
+
+    private fun addNewTodo() {
+        if (isEntryValid()) {
+            viewModel.addNewTodo(
+                binding.inputTitle.editText?.text.toString(),
+                binding.inputContent.editText?.text.toString()
+            )
+            Toast.makeText(context, "Completed", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_todoAdderFragment_to_todoListFragment)
+        }
     }
 }

@@ -19,5 +19,9 @@
     <fragment
         android:id="@+id/todoAdderFragment"
         android:name="com.example.simpletodo.ui.TodoAdderFragment"
-        android:label="TodoAdderFragment" />
+        android:label="TodoAdderFragment" >
+        <action
+            android:id="@+id/action_todoAdderFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment" />
+    </fragment>
 </navigation>
