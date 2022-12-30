@@ -6,4 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/game_status_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:text="@string/game_status_monitor_playing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/game_board_table"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/game_status_textview">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/button_11"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_12"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_13"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/button_21"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_22"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_23"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/button_31"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_32"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/button_33"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#b8bfc2"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/restart_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:backgroundTint="#b8bfc2"
+        android:text="@string/restart_game_btn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_board_table" />
 </androidx.constraintlayout.widget.ConstraintLayout>

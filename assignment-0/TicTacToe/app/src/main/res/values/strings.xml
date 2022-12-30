@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">TicTacToe</string>
     <string name="restart_game_btn">Restart</string>
-    <string name="game_status_monitor_player_o_turn">PLAYER O TURN...</string>
-    <string name="game_status_monitor_player_x_turn">PLAYER X TURN...</string>
+    <string name="game_status_monitor_playing">PLAYING...</string>
+    <string name="game_status_monitor_player_o_turn">PLAYER O TURN</string>
+    <string name="game_status_monitor_player_x_turn">PLAYER X TURN</string>
     <string name="game_status_monitor_player_x_win">PLAYER X WIN!</string>
     <string name="game_status_monitor_player_o_win">PLAYER O WIN!</string>
     <string name="game_status_monitor_draw">DRAW!</string>
