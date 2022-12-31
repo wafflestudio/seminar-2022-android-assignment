@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity :   AppCompatActivity() {
     private val newWordActivityRequestCode = 1
     private val wordViewModel: WordViewModel by viewModels {
         WordViewModelFactory((application as WordsApplication).repository)
