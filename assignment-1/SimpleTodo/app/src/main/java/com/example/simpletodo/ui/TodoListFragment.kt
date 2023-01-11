@@ -48,7 +48,7 @@ class TodoListFragment : Fragment() {
                 val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(it.id)
                 this.findNavController().navigate(action)
             },
-            onClickButton = { todo -> changeDoneButton(todo, todo.id) }
+            onClickButton = { todo -> changeDoneButton(todo) }
         )
         binding.recyclerView.adapter = adapter
 
@@ -57,18 +57,14 @@ class TodoListFragment : Fragment() {
             if (binding.checkbox.isChecked) {
                 Log.d("checkbox", "checkbox: $checkBox")
                 viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
-                    if (it) {
-                        viewModel.todoList.let {adapter.submitList( it.value )}
-                    }
+                    viewModel.todoList.let {adapter.submitList( it.value )}
                 }
             }
             // if unchecked checkbox show UNDONE todolist
             else {
                 Log.d("checkbox", "checkbox: $checkBox")
                 viewModel.todoListMerger.observe(this.viewLifecycleOwner) {
-                    if (it) {
-                        viewModel.undoneTodoList.let {adapter.submitList( it.value )}
-                    }
+                    viewModel.undoneTodoList.let {adapter.submitList( it.value )}
                 }
             }
         }
@@ -104,11 +100,11 @@ class TodoListFragment : Fragment() {
     }
 
     // If DoneButton is clicked, change done db and text
-    private fun changeDoneButton(todo: Todo, id: Long) {
+    private fun changeDoneButton(todo: Todo) {
         if (todo.done) {
-            viewModel.doneToUndone(id)
+            viewModel.doneToUndone(todo.id)
         } else {
-            viewModel.undoneToDone(id)
+            viewModel.undoneToDone(todo.id)
         }
     }
 }

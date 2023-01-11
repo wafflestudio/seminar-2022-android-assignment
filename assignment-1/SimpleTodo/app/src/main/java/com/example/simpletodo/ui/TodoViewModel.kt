@@ -7,6 +7,7 @@ import androidx.lifecycle.*
 import com.example.simpletodo.data.Todo
 import com.example.simpletodo.data.TodoDao
 import com.example.simpletodo.databinding.FragmentTodoListBinding
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,16 +16,14 @@ class TodoViewModel(
 ) : ViewModel() {
     val todoList: LiveData<List<Todo>> = todoDao.getTodoList().asLiveData()
     val undoneTodoList: LiveData<List<Todo>> = todoDao.getUndoneList().asLiveData()
-    var todoListMerger: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+    var todoListMerger: MediatorLiveData<List<Todo>> = MediatorLiveData<List<Todo>>().apply {
         addSource(todoList) {
-            value = isValidEnterInfo()
+            value -> setValue(value)
         }
         addSource(undoneTodoList) {
-            value = isValidEnterInfo()
+            value -> setValue(value)
         }
     }
-
-    private fun isValidEnterInfo() = !todoList.value.isNullOrEmpty() && !undoneTodoList.value.isNullOrEmpty()
 
     fun retrieveTodo(id: Long) : LiveData<Todo>{
         return todoDao.getTodo(id).asLiveData()
@@ -54,14 +53,14 @@ class TodoViewModel(
     }
 
     fun undoneToDone(id: Long) {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             todoDao.undoneToDone(id)
         }
         Log.d("button", "fun activated")
     }
 
     fun doneToUndone(id: Long) {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             todoDao.doneToUndone(id)
         }
     }
