@@ -15,9 +15,27 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_todoListFragment_to_todoDetailFragment"
+            app:destination="@id/todoDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/todoAdderFragment"
         android:name="com.example.simpletodo.ui.TodoAdderFragment"
-        android:label="TodoAdderFragment" />
+        android:label="TodoAdderFragment" >
+        <action
+            android:id="@+id/action_todoAdderFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoDetailFragment"
+        android:name="com.example.simpletodo.ui.TodoDetailFragment"
+        android:label="TodoDetailFragment" >
+        <action
+            android:id="@+id/action_todoDetailFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment" />
+        <argument
+            android:name="todo_id"
+            app:argType="long" />
+    </fragment>
 </navigation>

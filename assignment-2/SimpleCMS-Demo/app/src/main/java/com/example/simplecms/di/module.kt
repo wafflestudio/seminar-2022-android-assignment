@@ -33,7 +33,7 @@ val appModule = module {
                         val newRequest = it.request().newBuilder()
                             .addHeader(
                                 "Authorization",
-                                "Bearer " + sharedPreference.getString(
+                                "" + sharedPreference.getString(
                                     AuthStorage.AccessTokenKey,
                                     ""
                                 )
